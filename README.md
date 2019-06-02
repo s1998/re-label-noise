@@ -25,7 +25,7 @@ optional arguments:
                         from)
   --l2_val L2_VAL       l2 lambda value
 ```
-#Results
+# Results
 
 Results on NYT dataset
 
@@ -51,10 +51,13 @@ PCNN + ATT                 | 0.338
 PCNN + ATT + extra_layer   | 0.348
 ```
 
+We found that value of AUC score decreased for bootsrapping methods both hard and soft.
+
+
 # References 
-1. ["THUNLP's relation extraction "](https://github.com/thunlp/OpenNRE)
-2. ["Adversarial methods for relation extraction "](https://github.com/jxwuyi/AtNRE)
-3. ["Soft label methods fro relation extraction "](https://github.com/tyliupku/soft-label-RE)
+1. [THUNLP's relation extraction](https://github.com/thunlp/OpenNRE)
+2. [Adversarial methods for relation extraction](https://github.com/jxwuyi/AtNRE)
+3. [Soft label methods fro relation extraction](https://github.com/tyliupku/soft-label-RE)
 
 
 
