@@ -313,42 +313,42 @@ def bag_cross_max(x, scope, rel_tot, var_scope=None, dropout_before=False, keep_
 
 
 all_encoders = {"pcnn" : pcnn, "pbrnn" : pbrnn, "pcnn2" : pcnn2, "pcnn2n" : pcnn2n, 
-				"pcnn2n" : pcnn2n, "rnn" : rnn, "brnn" : brnn, "rnn2" : rnn2, "brnn2" : brnn2, 
-				"crnn" : crnn, "crnn2" : crnn2, "bgwa" : bgwa}
+                "pcnn2n" : pcnn2n, "rnn" : rnn, "brnn" : birnn, "rnn2" : rnn2, "brnn2" : birnn2, 
+                "crnn" : crnn, "crnn2" : crnn2, "bgwa" : bgwa}
 
 def loss_none(train_logit, labels, rel_tot, bs_val = 0.0, l2_lamd = 0.0):
     loss = softmax_cross_entropy(train_logit, 
             tf.one_hot(labels, rel_tot), rel_tot)
-	print("Created model with no bootstrapping, bs val : {}".format(bs_val))
+    print("Created model with no bootstrapping, bs val : {}".format(bs_val))
     return loss
 
 def loss_hard(train_logit, labels, rel_tot, bs_val = 0.0, l2_lamd = 0.0):
-	selected_pos_labels = tf.reduce_max(train_logit[:, 1:], axis = 1) > 0.95
-	train_labels_new = tf.where(selected_pos_labels, 
-	  tf.argmax(train_logit[:, 1:], axis = 1) + 1,
-	  labels)
-	train_labels_new = tf.stop_gradient(train_labels_new)
-	train_labels_new = tf.cast(tf.one_hot(train_labels_new, rel_tot), dtype=tf.float32) * (1 - bs_val) + \
-		bs_val * tf.cast(tf.one_hot(labels, rel_tot), dtype=tf.float32)
-	loss = softmax_cross_entropy(train_logit, train_labels_new, rel_tot)
-	print("Created model with hard bootstrapping, bs val : {}".format(bs_val))
-	return loss
+    selected_pos_labels = tf.reduce_max(train_logit[:, 1:], axis = 1) > 0.95
+    train_labels_new = tf.where(selected_pos_labels, 
+      tf.argmax(train_logit[:, 1:], axis = 1) + 1,
+      labels)
+    train_labels_new = tf.stop_gradient(train_labels_new)
+    train_labels_new = tf.cast(tf.one_hot(train_labels_new, rel_tot), dtype=tf.float32) * (1 - bs_val) + \
+        bs_val * tf.cast(tf.one_hot(labels, rel_tot), dtype=tf.float32)
+    loss = softmax_cross_entropy(train_logit, train_labels_new, rel_tot)
+    print("Created model with hard bootstrapping, bs val : {}".format(bs_val))
+    return loss
 
 def loss_soft(train_logit, labels, rel_tot, bs_val = 0.0, l2_lamd = 0.0):
-	train_labels_ = tf.cast(train_logit, dtype=tf.float32) * (1 - bs_val) + \
+    train_labels_ = tf.cast(train_logit, dtype=tf.float32) * (1 - bs_val) + \
             (bs_val) * tf.cast(tf.one_hot(labels, rel_tot), dtype=tf.float32)
-	loss = softmax_cross_entropy(train_logit, train_labels_, rel_tot)
-	print("Created model with soft bootstrapping, bs val : {}".format(bs_val))
+    loss = softmax_cross_entropy(train_logit, train_labels_, rel_tot)
+    print("Created model with soft bootstrapping, bs val : {}".format(bs_val))
     return loss
 
 def loss_extra(train_logit, labels, rel_tot, bs_val = 0.0, l2_lamd = 0.0):
-	extra_layer = 0.98 * tf.Variable(tf.eye(rel_tot), name = "extra_layer_identity") + \
-							tf.get_variable("extra_layer_noise", [rel_tot, rel_tot], dtype=tf.float32,
-	                                initializer=tf.initializers.truncated_normal(0, 0.01, dtype=tf.float32))
-	new_logits = tf.matmul(train_logit, extra_layer)
-	loss = softmax_cross_entropy(new_logits, 
-								tf.one_hot(labels, rel_tot), rel_tot) + l2_lambda * tf.nn.l2_loss(extra_layer)
-	print("Created model with extra layer")
-	return loss
+    extra_layer = 0.98 * tf.Variable(tf.eye(rel_tot), name = "extra_layer_identity") + \
+                            tf.get_variable("extra_layer_noise", [rel_tot, rel_tot], dtype=tf.float32,
+                                    initializer=tf.initializers.truncated_normal(0, 0.01, dtype=tf.float32))
+    new_logits = tf.matmul(train_logit, extra_layer)
+    loss = softmax_cross_entropy(new_logits, 
+                                tf.one_hot(labels, rel_tot), rel_tot) + l2_lambda * tf.nn.l2_loss(extra_layer)
+    print("Created model with extra layer")
+    return loss
 
 all_losses = {"none" : loss_none, "extra" : loss_extra, "hard" : loss_hard, "soft" : loss_soft}

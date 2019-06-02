@@ -296,7 +296,7 @@ bs_val = args.bs_val
 chkpt_pt = args.chkpt_pt
 l2_lambd = args.l2_val
 
-auc = trainer(bs_type = bs_type, bs_val = bs_val, check_pt = args.chkpt_pt, encoder = enc, selector = sel, l2_lambd = l2_lambd
-	dataset_name = dataset_name):
+auc = trainer(bs_type = bs_type, bs_val = bs_val, check_pt = args.chkpt_pt, encoder = enc, selector = sel, l2_lambd = l2_lambd,
+	dataset_name = dataset_name)
 print("Best auc value : {}".format(auc))
 
