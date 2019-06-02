@@ -1,7 +1,7 @@
 # Relation extraction modelling label noise
 Code for modelling label noie in distantly supervised relation extraction.
 
-# Sample usage
+# Usage help
 
 ```
 usage: main.py [-h] [--encoder ENCODER] [--selector SELECTOR]
@@ -29,20 +29,29 @@ optional arguments:
 # Results for cross senence maxpooling on NYT dataset
 
 ```
-Encoder Selector       AUC
-pcnn    att            0.338
-rnn     att            0.333
-brnn    att            0.344
-pcnn    cross-sent-max 0.369
-rnn     cross-sent-max 0.385
-brnn    cross-sent-max 0.383
+Encoder  | Selector       |  AUC
+---------------------------------
+pcnn     | att            | 0.338
+rnn      | att            | 0.333
+brnn     | att            | 0.344
+pcnn     | cross-sent-max | 0.369
+rnn      | cross-sent-max | 0.385
+brnn     | cross-sent-max | 0.383
 ```
 
 # Results for modelling label noise on NYT dataset
 
 ```
-PCNN + ATT                 0.338
-PCNN + ATT + extra_layer   0.348
+Mechanism                  | AUC
+----------------------------------
+PCNN + ATT                 | 0.338
+PCNN + ATT + extra_layer   | 0.348
 ```
+
+# References 
+1. ["THUNLP's relation extraction "](https://github.com/thunlp/OpenNRE)
+2. ["Adversarial methods for relation extraction "](https://github.com/jxwuyi/AtNRE)
+3. ["Soft label methods fro relation extraction "](https://github.com/tyliupku/soft-label-RE)
+
 
 
