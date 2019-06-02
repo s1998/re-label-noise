@@ -25,8 +25,11 @@ optional arguments:
                         from)
   --l2_val L2_VAL       l2 lambda value
 ```
+#Results
 
-# Results for cross senence maxpooling on NYT dataset
+Results on NYT dataset
+
+## Results for cross senence maxpooling on NYT dataset
 
 ```
 Encoder  | Selector       |  AUC
@@ -39,7 +42,7 @@ rnn      | cross-sent-max | 0.385
 brnn     | cross-sent-max | 0.383
 ```
 
-# Results for modelling label noise on NYT dataset
+## Results for modelling label noise on NYT dataset
 
 ```
 Mechanism                  | AUC
