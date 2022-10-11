@@ -1,4 +1,4 @@
-# Relation extraction modelling label noise
+# Relation extraction (modelling the label noise)
 Code for modelling label noie in distantly supervised relation extraction.
 
 # Usage help
